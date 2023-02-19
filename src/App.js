@@ -1,15 +1,39 @@
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addUser, deleteUser, editusername } from "./features/Users";
+import { addUser, deleteUser, updateName, updateUsername, updatePhone, updatelocation} from "./features/Users";
+import { CountryDropdown } from "react-country-region-selector";
+import {FaEdit} from 'react-icons/fa';
+import {AiFillDelete} from 'react-icons/ai';
 
 import './index.css';
 
-function App() {
+const App = () => {
   const dispatch = useDispatch();
-  const userList = useSelector((state) => state.users.value)
+  const userList = useSelector((state) => state.users.value);
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
-  const [editUsername, setEditUsername] = useState("");
+  const [phone, setPhone ] = useState("");
+  const [location, setLocation] = useState("");
+  const [newName, setNewName] = useState("")
+  const [newUsername, setNewUsername] = useState("");
+  const [newPhone, setNewPhone] = useState("");
+  const [newlocation, setNewLocation] = useState("");
+  const [state, setState] = useState({
+    country: "",
+  
+  })
+
+
+
+  const selectCountry = (val) => {
+    setState({...state, country: val });
+  }
+
+  const {country} = state;
+
+  const [isEdit, setIsEdit] = useState(false);
+  const [id, setId] = useState(null);
+  
 
   return (
     <div className="App">
@@ -29,12 +53,29 @@ function App() {
             setUsername(event.target.value);
           }}  
         />
-        <button 
+        <input
+          type="text"
+          placeholder="Phone..."
+          onChange={(event) => {
+            setPhone(event.target.value);
+          }}
+        />
+         <div>
+            <CountryDropdown
+              value={country}
+              onChange={(val) => selectCountry(val)} 
+              onClick={(event) => setLocation(event.target.value)}
+            />
+
+         </div>
+        <button className="addbtn"
           onClick={() => {
             dispatch(addUser({
-              id: userList[userList.length - 1].id + 1, 
+              id: userList.length + 1, 
               name, 
-              username
+              username,
+              phone,
+              country,
             })
             );
           }}
@@ -48,32 +89,71 @@ function App() {
           return(
             <>
 
-              <div>
-                <h1>{user.name}</h1>
-                <h1>{user.username}</h1>
-                <input 
-                  type="text"
-                  placeholder="Edit Username..."
-                  onChange={(event) => {
-                    setEditUsername(event.target.value);
-                  }}
-                />
-                <button 
-                  onClick={() => {
-                    dispatch(editusername({id: user.id, username: editUsername}))
-                  }}
-                >
-                  Update Username
-                </button>
-                <button 
-                  onClick={() => {
-                    dispatch(deleteUser({id: user.id }))
-                  }}
-                >
-                  Delete User
-                </button>
-              </div>
+              <div className="post">
 
+                <div className="content">
+                  <div className="name">{user.name}</div>
+                  <div className="username">{user.username}</div>
+                  <div className="phone">{user.phone}</div>
+                  <div className="country">{user.country}</div>
+
+                  <button className="edit"
+                    onClick={() => {
+                      setIsEdit(true)
+                      setId(user.id)
+                      
+                      }
+                  }
+
+                  >
+                  <FaEdit/>  Edit
+                  </button>
+                  <button className="delete"
+                    onClick={() => {
+                      dispatch(deleteUser({id: user.id }))
+                    }}
+                  >
+                  <AiFillDelete/>  Delete User
+                  </button> <br/>
+                            
+                </div>
+                <div className="editpart">
+                    {isEdit && id === user.id && (
+                          <>
+                            <input type="text" placeholder="NewName" onChange={(event) => {
+                              setNewName(event.target.value);
+                            }}/>
+                            <input type="text" placeholder="NewUsername" onChange={(event) => {
+                              setNewUsername(event.target.value);
+                            }}/>
+                            <input type="text" placeholder="NewPhone" onChange={(event) => {
+                              setNewPhone(event.target.value);
+                            }}/>
+                            <div>
+                              <CountryDropdown
+                                value={country}
+                                onChange={(val) => selectCountry(val)} 
+                                onClick={(event) => {
+                                  setNewLocation(event.target.value)
+                                }}
+                              />
+                          </div>
+                            <button 
+                              onClick={function(event)
+                              {
+                                dispatch(updateName({ id: user.id, name: newName })); 
+                                dispatch( updateUsername({ id: user.id, username: newUsername }));
+                                dispatch(updatePhone({id: user.id, phone: newPhone}));
+                                dispatch(updatelocation({id: user.id, country: newlocation}));
+                              }
+                              }
+                              > update</button>
+                          </>
+                        )}
+                </div>
+
+
+              </div>
           
               
             </>
@@ -83,7 +163,8 @@ function App() {
         })}
       </div>
     </div>
-  );
+  )
 }
+
 
 export default App;

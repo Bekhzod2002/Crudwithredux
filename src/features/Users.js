@@ -13,16 +13,42 @@ export const userSlice = createSlice ({
             state.value = state.value.filter((user) => user.id !== action.payload.id)
         },
 
-        editusername: (state, action) =>{
+
+        updateName: (state, action) => {
             state.value.map((user) => {
-                if(user.id === action.payload.id){
-                    user.username = action.payload.username;
+                if(user.id === action.payload.id) {
+                    user.name = action.payload.name;
                 }
             })
-        }
+        },
+
+        updateUsername: (state, action) => {
+            state.value.map((user) => {
+              if (user.id === action.payload.id) {
+                user.username = action.payload.username;
+              }
+            });
+        },
+
+        updatePhone: (state, action) => {
+            state.value.map((user) => {
+                if(user.id === action.payload.id) {
+                    user.phone = action.payload.phone;
+                }
+            })
+        },
+
+        updatelocation: (state, action) => {
+            state.value.map((user) => {
+                if(user.id === action.payload.id) {
+                    user.country = action.payload.country;
+                }
+            })
+        },
+
     },
 });
 
-export const {addUser, deleteUser, editusername} = userSlice.actions
+export const {addUser, deleteUser, updateName, updateUsername, updatePhone, updatelocation } = userSlice.actions
 
 export default userSlice.reducer;
