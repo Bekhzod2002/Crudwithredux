@@ -13,7 +13,7 @@ export const userSlice = createSlice ({
             state.value = state.value.filter((user) => user.id !== action.payload.id)
         },
 
-
+/* 
         updateName: (state, action) => {
             state.value.map((user) => {
                 if(user.id === action.payload.id) {
@@ -44,11 +44,23 @@ export const userSlice = createSlice ({
                     user.country = action.payload.country;
                 }
             })
-        },
+        }, */
+
+        edituser: (state, action) => {
+            state.value.map((user) => {
+                if(user.id === action.payload.id) {
+                        user.name = action.payload.name;
+                        user.username = action.payload.username;
+                        user.phone = action.payload.phone;
+                        user.country = action.payload.country;
+
+                }
+            })
+        }
 
     },
 });
 
-export const {addUser, deleteUser, updateName, updateUsername, updatePhone, updatelocation } = userSlice.actions
+export const {addUser, deleteUser, edituser /* updateName, updateUsername, updatePhone, updatelocation */ } = userSlice.actions
 
 export default userSlice.reducer;

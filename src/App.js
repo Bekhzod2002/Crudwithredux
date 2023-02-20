@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addUser, deleteUser, updateName, updateUsername, updatePhone, updatelocation} from "./features/Users";
+import { addUser, deleteUser, edituser} from "./features/Users";
 import { CountryDropdown } from "react-country-region-selector";
 import {FaEdit} from 'react-icons/fa';
 import {AiFillDelete} from 'react-icons/ai';
@@ -118,6 +118,7 @@ const App = () => {
                             
                 </div>
                 <div className="editpart">
+                  {""}
                     {isEdit && id === user.id && (
                           <>
                             <input type="text" placeholder="NewName" onChange={(event) => {
@@ -139,15 +140,17 @@ const App = () => {
                               />
                           </div>
                             <button 
-                              onClick={function(event)
-                              {
-                                dispatch(updateName({ id: user.id, name: newName })); 
-                                dispatch( updateUsername({ id: user.id, username: newUsername }));
-                                dispatch(updatePhone({id: user.id, phone: newPhone}));
-                                dispatch(updatelocation({id: user.id, country: newlocation}));
+                              onClick={() =>
+                                
+                                {
+                                  
+                                  dispatch(edituser({ id: user.id, name: newName, username: newUsername, phone: newPhone, country: newlocation  }));                      
+                                  setIsEdit(false)
+                                }
+
                               }
-                              }
-                              > update</button>
+                              
+                              >{""} update</button>
                           </>
                         )}
                 </div>
@@ -168,3 +171,4 @@ const App = () => {
 
 
 export default App;
+

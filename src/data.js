@@ -20,7 +20,6 @@ export const UsersData = [
       phone: '+123284959',
       country: 'Spain',
     },
-
     {
       id: 4,
       name: "Patricia Lebsack",
