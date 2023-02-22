@@ -66,7 +66,7 @@ const EditUser = () => {
       <TextField 
         label="Phone"
         value={values.phone}
-        onChange={(e) => setValues({...values, username: e.target.value})}
+        onChange={(e) => setValues({...values, phone: e.target.value})}
         inputProps={{type: 'Phone',  placeholder: 'Edit Phone'}}
       />
       <CountryDropdown
